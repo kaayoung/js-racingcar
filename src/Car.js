@@ -8,3 +8,5 @@ class Car {
     this.position += 1;
   }
 }
+
+export default Car;
