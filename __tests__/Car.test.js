@@ -1,4 +1,5 @@
 import Car from "../src/Car";
+import { playCarGame } from "../src/CarGame";
 
 describe("자동차 클래스 테스트", () => {
   test("자동차는 이름을 상태로 가질 수 있다.", () => {
@@ -34,5 +35,14 @@ describe("자동차 클래스 테스트", () => {
     car.moveForward();
 
     expect(car.position).toBe(5);
+  });
+});
+
+describe("자동차 경주 게임 테스트", () => {
+  describe("자동차 이름을 입력할 때", () => {
+    test("자동차 이름은 5자 이하만 가능하다", async () => {
+      const result = await playCarGame();
+      //   expect(result).toBe(undefined);
+    });
   });
 });
