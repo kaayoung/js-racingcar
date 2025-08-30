@@ -41,8 +41,25 @@ describe("자동차 클래스 테스트", () => {
 describe("자동차 경주 게임 테스트", () => {
   describe("자동차 이름을 입력할 때", () => {
     test("자동차 이름은 5자 이하만 가능하다", async () => {
-      const result = await playCarGame();
-      //   expect(result).toBe(undefined);
+      const testInput = jest.fn().mockResolvedValue("car1");
+      const testLogs = [];
+      const testResultConsoleLog = (result) =>
+        testLogs.push(String(result).trim());
+
+      await playCarGame({
+        askInput: testInput,
+        resultConsoleLog: testResultConsoleLog,
+      });
+
+      expect(testLogs).toEqual([
+        "실행 결과",
+        "car1 : -",
+        "car1 : --",
+        "car1 : ---",
+        "car1 : ----",
+        "car1 : -----",
+        "경주를 완료했습니다.",
+      ]);
     });
   });
 });
