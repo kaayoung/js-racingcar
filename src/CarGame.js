@@ -23,14 +23,7 @@ function readLineAsync(query) {
 }
 
 function checkCarName(names) {
-  let isInputValueCorrect = true;
-  for (let name of names) {
-    if (name.length > 5) {
-      isInputValueCorrect = false;
-      break;
-    }
-  }
-  return isInputValueCorrect;
+  return names.every((name) => name.length <= 5);
 }
 
 function moveForwardOneTime(carName, position) {
