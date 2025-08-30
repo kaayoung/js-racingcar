@@ -1,4 +1,5 @@
 import Car from "../src/Car";
+import { playCarGame } from "../src/CarGame";
 
 describe("자동차 클래스 테스트", () => {
   test("자동차는 이름을 상태로 가질 수 있다.", () => {
@@ -36,3 +37,44 @@ describe("자동차 클래스 테스트", () => {
     expect(car.position).toBe(5);
   });
 });
+
+describe("자동차 경주 게임 테스트", () => {
+  describe("자동차 이름을 입력할 때", () => {
+    test("이름을 입력하면 전진하는 자동차를 출력할 때 자동차 이름과 자동차가 지나간 궤적이 출력된다. 자동차는 1회당 1칸씩 전진하며, 경주는 5회로 고정해서 진행된다.", async () => {
+      const testInput = jest.fn().mockResolvedValue("car1");
+      const testLogs = [];
+      const testResultConsoleLog = (result) =>
+        testLogs.push(String(result).trim());
+
+      await playCarGame({
+        askInput: testInput,
+        resultConsoleLog: testResultConsoleLog,
+      });
+
+      expect(testLogs).toEqual([
+        "실행 결과",
+        "car1 : -",
+        "car1 : --",
+        "car1 : ---",
+        "car1 : ----",
+        "car1 : -----",
+        "경주를 완료했습니다.",
+      ]);
+    });
+
+    test("자동차 이름을 5자 초과로 입력할 경우 에러를 출력한다.", async () => {
+      const testInput = jest.fn().mockResolvedValue("abcdef");
+      const testLogs = [];
+      const testResultConsoleLog = (result) =>
+        testLogs.push(String(result).trim());
+
+      await playCarGame({
+        askInput: testInput,
+        resultConsoleLog: testResultConsoleLog,
+      });
+
+      expect(testLogs).toEqual([]);
+    });
+  });
+});
+
