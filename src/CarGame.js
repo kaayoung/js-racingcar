@@ -23,7 +23,8 @@ function readLineAsync(query) {
 }
 
 function checkCarName(names) {
-  return names.every((name) => name.length <= 5);
+  const CAR_NAME_MAX_LENGTH = 5;
+  return names.every((name) => name.length <= CAR_NAME_MAX_LENGTH);
 }
 
 function moveForwardOneTime(carName, position) {
