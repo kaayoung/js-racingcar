@@ -40,7 +40,7 @@ describe("자동차 클래스 테스트", () => {
 
 describe("자동차 경주 게임 테스트", () => {
   describe("자동차 이름을 입력할 때", () => {
-    test("이름을 입력하면 전진하는 자동차를 출력할 때 자동차 이름과 자동차가 지나간 궤적이 출력된다.", async () => {
+    test("이름을 입력하면 전진하는 자동차를 출력할 때 자동차 이름과 자동차가 지나간 궤적이 출력된다. 자동차는 1회당 1칸씩 전진하며, 경주는 5회로 고정해서 진행된다.", async () => {
       const testInput = jest.fn().mockResolvedValue("car1");
       const testLogs = [];
       const testResultConsoleLog = (result) =>
