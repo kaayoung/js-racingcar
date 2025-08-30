@@ -32,23 +32,27 @@ function moveForwardOneTime(carName, position) {
 }
 
 export async function playCarGame() {
-  const input = await readLineAsync("자동차 이름을 입력하세요 > ");
+  try {
+    const input = await readLineAsync("자동차 이름을 입력하세요 > ");
 
-  const carNames = input.split(",");
+    const carNames = input.split(",");
 
-  if (!checkCarName(carNames)) return;
+    if (!checkCarName(carNames)) return;
 
-  const GAME_COUNT = 5;
+    const GAME_COUNT = 5;
 
-  console.log("실행 결과");
+    console.log("실행 결과");
 
-  for (let i = 1; i <= GAME_COUNT; i++) {
-    for (let car of carNames) {
-      moveForwardOneTime(car, i);
+    for (let i = 1; i <= GAME_COUNT; i++) {
+      for (let car of carNames) {
+        moveForwardOneTime(car, i);
+      }
     }
-  }
 
-  console.log("경주를 완료했습니다.");
+    console.log("경주를 완료했습니다.");
+  } catch (error) {
+    console.error(`입력 오류 : ${error?.message ?? error}`);
+  }
 }
 
 playCarGame();
