@@ -40,7 +40,7 @@ describe("자동차 클래스 테스트", () => {
 
 describe("자동차 경주 게임 테스트", () => {
   describe("자동차 이름을 입력할 때", () => {
-    test("자동차 이름은 5자 이하만 가능하다", async () => {
+    test("이름을 입력하면 전진하는 자동차를 출력할 때 자동차 이름과 자동차가 지나간 궤적이 출력된다.", async () => {
       const testInput = jest.fn().mockResolvedValue("car1");
       const testLogs = [];
       const testResultConsoleLog = (result) =>
@@ -60,6 +60,20 @@ describe("자동차 경주 게임 테스트", () => {
         "car1 : -----",
         "경주를 완료했습니다.",
       ]);
+    });
+
+    test("자동차 이름을 5자 초과로 입력할 경우 에러를 출력한다.", async () => {
+      const testInput = jest.fn().mockResolvedValue("abcdef");
+      const testLogs = [];
+      const testResultConsoleLog = (result) =>
+        testLogs.push(String(result).trim());
+
+      await playCarGame({
+        askInput: testInput,
+        resultConsoleLog: testResultConsoleLog,
+      });
+
+      expect(testLogs).toEqual([]);
     });
   });
 });
