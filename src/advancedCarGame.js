@@ -32,9 +32,10 @@ function winnersOf(cars) {
   return cars.filter((c) => c.position === maxPosition).map((c) => c.name);
 }
 
-async function advancedCarGame({
+export async function advancedCarGame({
   askInput = readLineAsync,
   resultConsole = console.log,
+  random = Math.random,
 } = {}) {
   try {
     const inputCarNames = await askInput(
@@ -50,7 +51,7 @@ async function advancedCarGame({
 
     for (let i = 0; i < tryGameCount; i++) {
       cars.forEach((car) => {
-        if (Math.floor(Math.random() * 10) >= 4) {
+        if (Math.floor(random() * 10) >= 4) {
           car.moveForward();
         }
 
