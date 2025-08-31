@@ -1,10 +1,26 @@
 import Car from "./Car.js";
 import { readLineAsync } from "./utils/readLineAsync.js";
 
-function checkCarName(names) {
-  const CAR_NAME_MAX_LENGTH = 5;
+function parseNames(input) {
+  if (typeof input !== "string") {
+    throw new Error("잘못 입력했습니다. 올바른 이름을 입력해주세요");
+  }
 
-  return names.every((name) => name.length <= CAR_NAME_MAX_LENGTH);
+  const names = input
+    .split(",")
+    .map((n) => n.trim())
+    .filter((n) => n.length > 0);
+
+  if (names.length === 0) {
+    throw new Error("잘못 입력했습니다. 올바른 이름을 입력해주세요");
+  }
+
+  const CAR_NAME_MAX_LENGTH = 5;
+  if (!names.every((name) => name.length <= CAR_NAME_MAX_LENGTH)) {
+    throw new InvalidInputError("자동차 이름은 5자 이하만 가능합니다.");
+  }
+
+  return names;
 }
 
 function makeCars(carNames) {
@@ -16,18 +32,20 @@ function winnersOf(cars) {
   return cars.filter((c) => c.position === maxPosition).map((c) => c.name);
 }
 
-async function advancedCarGame() {
+async function advancedCarGame({
+  askInput = readLineAsync,
+  resultConsole = console.log,
+} = {}) {
   try {
-    const inputCarNames = await readLineAsync(
-      "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분)."
+    const inputCarNames = await askInput(
+      "경주할 자동차 이름을 입력하세요(이름은 쉼표(,)를 기준으로 구분). : "
     );
-    const carNames = inputCarNames.split(",");
 
-    if (!checkCarName(carNames)) return;
+    const carNames = parseNames(inputCarNames);
 
     const cars = makeCars(carNames);
 
-    const inputGameCount = await readLineAsync("시도할 회수는 몇회인가요?");
+    const inputGameCount = await askInput("시도할 회수는 몇회인가요?");
     const tryGameCount = Number(inputGameCount);
 
     for (let i = 0; i < tryGameCount; i++) {
@@ -36,13 +54,13 @@ async function advancedCarGame() {
           car.moveForward();
         }
 
-        console.log(`${car.name} : ${"-".repeat(car.position)} \n`);
+        resultConsole(`${car.name} : ${"-".repeat(car.position)} \n`);
       });
-      console.log("\n");
+      resultConsole("\n");
     }
 
     const winners = winnersOf(cars);
-    console.log(`${winners.join(" , ")} 가 최종 우승했습니다.`);
+    resultConsole(`${winners.join(" , ")} 가 최종 우승했습니다.`);
   } catch (error) {
     console.error(error);
   }
